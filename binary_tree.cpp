@@ -5,6 +5,7 @@ http://www.cnblogs.com/davidxu/p/9031055.html
 
 */
 
+//二叉树版本
 #include <iostream>
 #include <stdlib.h>
 #include <malloc.h>
@@ -61,19 +62,6 @@ void CreatBTree(BTNode *&root, double initial)
     root->path.push_back(root->temperature);
     count_num++;  
     list.push_back(root);
-
-    //单独把第一层放进栈
-    // int firstLayer = firstLayerNum;
-    // while(firstLayer--){
-    //     root = new BTNode();
-    //     root->temperature = initial;
-    //     root->sum = 0;
-    //     root->path.push_back(root->temperature);
-    //     count_num++;  
-    //     list.push_back(root);
-    // }
-    
-
 
     while (count_num < node_num)
     {
