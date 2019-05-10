@@ -1,6 +1,6 @@
 
-//Èý´ÎÑùÌõ²åÖµ
-
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+//http://www.cnblogs.com/duye/p/8671820.html
 #pragma warning(disable:4996)
 #include<iostream>
 #include<cstdio>
@@ -15,25 +15,25 @@ double m[1000000];
 int main(){
 	int n;
 	int xx;
-	printf("ÇëÊäÈën\n");
+	printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½n\n");
 	scanf("%d", &n);
-	printf("ÊäÈëx\n");
+	printf("ï¿½ï¿½ï¿½ï¿½x\n");
 	for (int i = 0; i <= n; i++) {
 		scanf("%d", &x[i]);
 
 	}
 	for (int i = 0; i<n; i++)h[i] = x[i + 1] - x[i];//cout<<h[i]<<endl;
 
-	printf("ÊäÈëy\n");
+	printf("ï¿½ï¿½ï¿½ï¿½y\n");
 	for (int i = 0; i <= n; i++) scanf("%d", &y[i]);
-	printf("ÊäÈëÇóÖµµãxx\n");
+	printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½xx\n");
 	scanf("%d", &xx);
-	printf("µÚÒ»ÖÖ±ß½çÌõ¼þÑ¡Ôñ1£¬µÚ¶þÖÖ±ß½çÌõ¼þÑ¡Ôñ2:");
+	printf("ï¿½ï¿½Ò»ï¿½Ö±ß½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½1ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Ö±ß½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½2:");
 	int op;
 	scanf("%d", &op);
 
 	if (op == 1){
-		printf("ÊäÈëm[0],m[n]:");
+		printf("ï¿½ï¿½ï¿½ï¿½m[0],m[n]:");
 		scanf("%lf%lf", &m[0], &m[n]);
 
 		afa[0] = 0, bta[0] = 2 * m[0];
@@ -60,7 +60,7 @@ int main(){
 	for (int i = n; i >= 0; i--)
 	{
 		m[i] = a[i] * m[i + 1] + b[i];
-		printf("½âµÃm%d=%lf\n", i, m[i]);
+		printf("ï¿½ï¿½ï¿½m%d=%lf\n", i, m[i]);
 	}
 
 	int from, to;

@@ -21,6 +21,13 @@ typedef struct BTNode
     vector<BTNode *> children;
 } * BTree;
 
+typedef struct Point 
+{
+    double x;//时间
+    double y;//温度
+    Point(double a,double b){ x=a;y=b;}
+};
+
 double cal_power(double a, double b);
 double get_hightest_temp(double origin);
 double get_lowest_temp(double origin);
@@ -141,7 +148,7 @@ void depthFirstSearch(BTree root)
 int main()
 {
     int segment;
-    printf("输入时间段个数：");
+    printf("输入时间间隔数：");
     scanf("%d", &segment);
 
     double initialVal;
@@ -153,16 +160,16 @@ int main()
     scanf("%d", &firstLayerNum);
 
     node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
+     printf("一共将有%d个节点\n4",node_num);
 
     BTree tree;
     CreatBTree(tree, initialVal ,firstLayerNum);
 
-    printf("深度优先遍历二叉树结果: \n");
+    printf("深度优先遍历二叉树结果(包括剪枝): \n");
 
     depthFirstSearch(tree);
 
-    printf("最小功耗为：\n");
-    printf("%lf\n", min_sum);
+    printf("最小功耗为%lf\n",min_sum);
 
     printf("最小功耗路径为：\n");
     for (int i = 0; i < min_path.size(); i++)
