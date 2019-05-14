@@ -1,5 +1,5 @@
-
 #include "header.h"
+#include "global.h"
 using namespace std;
 
 void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
@@ -68,7 +68,7 @@ void depthFirstSearch(BTree root)
     {
 
         node = nodeStack.top();
-        printf("%lf\n", node->temperature); 
+        // printf("%lf\n", node->temperature); 
         nodeStack.pop();
         tmp = node->path;
 

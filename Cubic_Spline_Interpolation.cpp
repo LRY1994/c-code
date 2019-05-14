@@ -1,55 +1,57 @@
-
-//»˝¥Œ—˘Ãı≤Â÷µ
+//‰∏âÊ¨°Ê†∑Êù°ÊèíÂÄº
 
 #pragma warning(disable:4996)
 #include<iostream>
 #include<cstdio>
 #include<cmath>
+#include "header.h"
 using namespace std;
 
-int x[1000000], y[1000000];
+double x[1000000], y[1000000];
 double afa[1000000], bta[1000000];
-int  h[1000000];
+double  h[1000000];
 double a[1000000], b[1000000];
 double m[1000000];
-void interpolation(){
-	int n;
-	int xx;
-	printf("«Î ‰»În\n");
-	scanf("%d", &n);
-	printf(" ‰»Îx\n");
+int n;
+void interpolation(vector<Point> pointList){
+	n = pointList.size()-1;
 	for (int i = 0; i <= n; i++) {
-		scanf("%d", &x[i]);
-
+		x[i] = pointList[i].x;
+		y[i] = pointList[i].y;
 	}
 	for (int i = 0; i<n; i++)h[i] = x[i + 1] - x[i];//cout<<h[i]<<endl;
-
-	printf(" ‰»Îy\n");
-	for (int i = 0; i <= n; i++) scanf("%d", &y[i]);
-	printf(" ‰»Î«Û÷µµ„xx\n");
-	scanf("%d", &xx);
-	printf("µ⁄“ª÷÷±ﬂΩÁÃıº˛—°‘Ò1£¨µ⁄∂˛÷÷±ﬂΩÁÃıº˛—°‘Ò2:");
+	
 	int op;
+	printf("Á¨¨‰∏ÄÁßçËæπÁïåÊù°‰ª∂ÈÄâÊã©1ÔºåÁ¨¨‰∫åÁßçËæπÁïåÊù°‰ª∂ÈÄâÊã©2:");	
 	scanf("%d", &op);
 
 	if (op == 1){
-		printf(" ‰»Îm[0],m[n]:");
+		printf("ËæìÂÖ•m[0],m[n]:");
 		scanf("%lf%lf", &m[0], &m[n]);
 
-		afa[0] = 0, bta[0] = 2 * m[0];
-		afa[n] = 1, bta[n] = 2 * m[n];
+		afa[0] = 0, 
+		bta[0] = 2 * m[0];
+
+		afa[n] = 1, 
+		bta[n] = 2 * m[n];
 	}
 	if (op == 2){
-		afa[0] = 1, bta[0] = 3 * double(y[1] - y[0]) / (h[0]);
-		afa[n] = 0, bta[n] = 3 * double(y[n] - y[n - 1]) / (h[n - 1]);
+		afa[0] = 1, 
+		bta[0] = 3 * double(y[1] - y[0]) / (h[0]);
+
+		afa[n] = 0, 
+		bta[n] = 3 * double(y[n] - y[n - 1]) / (h[n - 1]);
 	}
+
 
 	for (int i = 1; i<n; i++)
 	{
 		afa[i] = double(h[i - 1]) / double(h[i - 1] + h[i]);
 		bta[i] = 3 * ((1 - afa[i])*double(y[i] - y[i - 1]) / double(h[i - 1]) + afa[i] * double(y[i + 1] - y[i]) / double(h[i]));
 	}
+	
 	a[0] = -afa[0] / 2; b[0] = bta[0] / 2;
+
 	for (int i = 1; i<n + 1; i++)
 	{
 		double temp = 2 + (1 - afa[i])*a[i - 1];
@@ -57,30 +59,42 @@ void interpolation(){
 		b[i] = (bta[i] - (1 - afa[i])*b[i - 1]) / temp;
 	}
 	m[n + 1] = 0;
+
+	printf("Ëß£Âæó\n");
 	for (int i = n; i >= 0; i--)
 	{
 		m[i] = a[i] * m[i + 1] + b[i];
-		printf("Ω‚µ√m%d=%lf\n", i, m[i]);
+		printf("m%d=%lf\n", i, m[i]);
 	}
+}
 
-	int from, to;
+double get_value(double xx){
+	int from=-1, to=-1;
 	for (int i = 0; i <= n; i++){
-		if (i == 0 && xx <= x[i + 1] && xx >= x[i]){
-			from = i; to = i + 1;
-			break;
-		}
-		if (i>0 && xx <= x[i + 1] && xx>x[i]){
+		// if (i == 0 && xx <= double(x[i + 1] )&& xx >= double(x[i])){
+		// 	from = i; to = i + 1;
+		// 	break;
+		// }
+		// if (i>0 && xx <= double(x[i + 1]) && xx>double(x[i])){
+		// 	from = i; to = i + 1;
+		// 	break;
+		// }
+		if (xx <= x[i + 1] && xx >= x[i]){
 			from = i; to = i + 1;
 			break;
 		}
 	}
-	
-	double a1 = double(xx - x[from]) / double(x[to] - x[from]);
-	double a2 = double(xx - x[to]) / double(x[from] - x[to]);
+	if(from==-1) return ;
+
+	double a1 = (xx - x[from]) / (x[to] - x[from]);
+	double a2 = (xx - x[to]) / (x[from] - x[to]);
 	double b1 = a1*a1;
 	double b2 = a2*a2;
-	double result = (1 + 2 * a1)*b2*y[from] + (1 + 2 * a2)*b1*y[to] + (xx - x[from])*b2*m[from] + (xx - x[to])*b1*m[to];
+	double result =   (1 + 2 * a1) * b2 * y[from] 
+					+ (1 + 2 * a2) * b1 * y[to] 
+					+ (xx - x[from]) * b2 * m[from] 
+					+ (xx - x[to]) * b1 * m[to];
 
-	printf("f(%d) is %lf\n", xx, result);
-	// return 0;
+	return result;
+
 }
