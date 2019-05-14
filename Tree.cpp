@@ -1,70 +1,20 @@
-/**Ò»°ãÊ÷
- */
-#include <iostream>
-#include <stdlib.h>
-#include <malloc.h>
-#include <Stack>
-#include <Queue>
-#include <vector>
-#include <cmath>
+
+#include "header.h"
 using namespace std;
 
-int node_num = 0;
-int min_sum = 99999999;  
-vector<double> min_path; 
-
-typedef struct BTNode
-{
-    double temperature; 
-    double sum;         
-    vector<double> path;
-    vector<BTNode *> children;
-} * BTree;
-
-typedef struct Point 
-{
-    double x;//Ê±¼ä
-    double y;//ÎÂ¶È
-    Point(double a,double b){ x=a;y=b;}
-};
-
-double cal_power(double a, double b);
-double get_hightest_temp(double origin);
-double get_lowest_temp(double origin);
-double get_firstLayer_temp(int index,double rootVal);
-void CreatBTree(BTree &root, double initial);
-void depthFirstSearch(BTree root);
-
-double cal_power(double a, double b)
-{
-    return 0;
-}
-double get_hightest_temp(double origin)
-{
-    return origin + 1;
-}
-double get_lowest_temp(double origin)
-{
-    return origin - 1;
-}
-
-double get_firstLayer_temp(int index,double rootVal){
-    return index * rootVal;
-}
-
-void CreatBTree(BTNode *&root, double initial,int firstLayerNum)
+void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
 {
     int count_num = 0; 
     vector<BTNode *> list;
 
-    //¸ù
+    //æ ¹
     root = new BTNode();
     root->temperature = initial;
     root->sum = 0;
     root->path.push_back(root->temperature);
     count_num++;  
 
-    //µÚÒ»²ã
+    //ç¬¬ä¸€å±‚
     BTNode * tmp;int i=0;
     while(i<firstLayerNum){
         i++;
@@ -87,14 +37,14 @@ void CreatBTree(BTNode *&root, double initial,int firstLayerNum)
         for (int i = 0; i < list.size(); i++)
         {
             BTNode *node = list[i];
-            //×ó½Úµã
+            //å·¦èŠ‚ç‚¹
             tmp = new BTNode();
             tmp->temperature = get_lowest_temp(node->temperature);
             tmp->sum=0;
             count_num++;
             node->children.push_back(tmp);
             tmplist.push_back(tmp);
-            //ÓÒ½Úµã
+            //å³èŠ‚ç‚¹
             tmp = new BTNode();
             tmp->temperature = get_hightest_temp(node->temperature);
             tmp->sum=0;
@@ -127,7 +77,7 @@ void depthFirstSearch(BTree root)
             child = node->children[i];
             child->sum = node->sum + cal_power(node->temperature, child->temperature);
             if (child->sum < min_sum)
-            { //¼ôÖ¦
+            { //å‰ªæ
                 child->path = tmp;
                 child->path.push_back(child->temperature);
                 nodeStack.push(child); 
@@ -135,7 +85,7 @@ void depthFirstSearch(BTree root)
         }
 
         if (node->children.size() == 0)
-        { //Ò¶×Ó½Úµã
+        { //å¶å­èŠ‚ç‚¹
             if (node->sum < min_sum)
             {
                 min_sum = node->sum;
@@ -143,39 +93,4 @@ void depthFirstSearch(BTree root)
             }
         }
     }
-}
-
-int main()
-{
-    int segment;
-    printf("ÊäÈëÊ±¼ä¼ä¸ôÊı£º");
-    scanf("%d", &segment);
-
-    double initialVal;
-    printf("ÊäÈë³õÊ¼ÎÂ¶È£º");
-    scanf("%lf", &initialVal);
-
-    int firstLayerNum;
-    printf("ÊäÈëµÚÒ»²ã½Úµã¸öÊı£º");
-    scanf("%d", &firstLayerNum);
-
-    node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
-     printf("Ò»¹²½«ÓĞ%d¸ö½Úµã\n4",node_num);
-
-    BTree tree;
-    CreatBTree(tree, initialVal ,firstLayerNum);
-
-    printf("Éî¶ÈÓÅÏÈ±éÀú¶ş²æÊ÷½á¹û(°üÀ¨¼ôÖ¦): \n");
-
-    depthFirstSearch(tree);
-
-    printf("×îĞ¡¹¦ºÄÎª%lf\n",min_sum);
-
-    printf("×îĞ¡¹¦ºÄÂ·¾¶Îª£º\n");
-    for (int i = 0; i < min_path.size(); i++)
-    {
-        printf("%lf,", min_path[i]);
-    }
-
-    return 0;
 }
