@@ -13,7 +13,7 @@ double  h[1000000];
 double a[1000000], b[1000000];
 double m[1000000];
 int n;
-void interpolation(vector<Point> pointList){
+vector<double>  interpolation(vector<Point> pointList,int option){
 	n = pointList.size()-1;
 	for (int i = 0; i <= n; i++) {
 		x[i] = pointList[i].x;
@@ -22,10 +22,10 @@ void interpolation(vector<Point> pointList){
 	for (int i = 0; i<n; i++)h[i] = x[i + 1] - x[i];//cout<<h[i]<<endl;
 	
 	int op;
-	printf("第一种边界条件选择1，第二种边界条件选择2:");	
-	scanf("%d", &op);
+	// printf("第一种边界条件选择1，第二种边界条件选择2:");	
+	// scanf("%d", &op);
 
-	if (op == 1){
+	if (option == 1){
 		printf("输入m[0],m[n]:");
 		scanf("%lf%lf", &m[0], &m[n]);
 
@@ -35,7 +35,7 @@ void interpolation(vector<Point> pointList){
 		afa[n] = 1, 
 		bta[n] = 2 * m[n];
 	}
-	if (op == 2){
+	if (option == 2){
 		afa[0] = 1, 
 		bta[0] = 3 * double(y[1] - y[0]) / (h[0]);
 
@@ -60,12 +60,19 @@ void interpolation(vector<Point> pointList){
 	}
 	m[n + 1] = 0;
 
-	printf("解得\n");
+	// printf("解得\n");
 	for (int i = n; i >= 0; i--)
 	{
 		m[i] = a[i] * m[i + 1] + b[i];
-		printf("m%d=%lf\n", i, m[i]);
+		// printf("m%d=%lf\n", i, m[i]);
 	}
+
+	vector<double> mVector;
+	for(int i=0;i<=n;i++){
+		mVector.push_back(m[i]);
+	}
+
+	return mVector;
 }
 
 double get_value(double xx){

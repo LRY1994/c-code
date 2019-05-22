@@ -6,6 +6,18 @@
 #include "global.h"
 using namespace std;
 
+vector<double> exec(int segment,double initialVal,int firstLayerNum);
+
+int main (){
+    vector<double> m = exec(5,4,5);
+    for (int i = 0;i<m.size();i++)  
+    {  	
+        printf("m%d=%lf\n", i, m[i]); 
+    }
+
+   return 0;
+ 
+};
 /**
  * @description 执行函数
  * @param {int} segment ，时间间隔数
@@ -13,10 +25,7 @@ using namespace std;
  * @param {int} firstLayerNum 第一层节点个数
  * @returns {null}
  */
-int main (){
-    exec(4,0,5);
-};
-int exec(int segment,double initialVal,int firstLayerNum)
+vector<double> exec(int segment,double initialVal,int firstLayerNum)
 {
     // int segment;
     // printf("输入时间间隔数：");
@@ -61,16 +70,17 @@ int exec(int segment,double initialVal,int firstLayerNum)
     
 		
 	printf("\n开始三次样条插值......\n");
-    interpolation(point);
+    return interpolation(point,2);
 
-    double xx;
-    printf("输入x：");
-    while(scanf("%lf", &xx)){
-        printf("f(%lf) is %lf\n", xx, get_value(xx));
-        printf("输入x：");
-    }
+
+    // double xx;
+    // printf("输入x：");
+    // while(scanf("%lf", &xx)){
+    //     printf("f(%lf) is %lf\n", xx, get_value(xx));
+    //     printf("输入x：");
+    // }
     
 
-    return 0;
+    // return 0;
 }
 // g++ -fexec-charset=GBK main.cpp Tree.cpp Config.cpp Cubic_Spline_Interpolation.cpp && a.exe
