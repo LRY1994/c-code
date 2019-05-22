@@ -6,20 +6,30 @@
 #include "global.h"
 using namespace std;
 
-
-int main()
+/**
+ * @description 执行函数
+ * @param {int} segment ，时间间隔数
+ * @param {double} initialVal 初始温度
+ * @param {int} firstLayerNum 第一层节点个数
+ * @returns {null}
+ */
+int main (){
+    exec(4,0,5);
+};
+int exec(int segment,double initialVal,int firstLayerNum)
 {
-    int segment;
-    printf("输入时间间隔数：");
-    scanf("%d", &segment);
+    // int segment;
+    // printf("输入时间间隔数：");
+    // scanf("%d", &segment);
 
-    double initialVal;
-    printf("输入初始温度：");
-    scanf("%lf", &initialVal);
+    // double initialVal;
+    // printf("输入初始温度：");
+    // scanf("%lf", &initialVal);
 
-    int firstLayerNum;
-    printf("输入第一层节点个数：");
-    scanf("%d", &firstLayerNum);
+    // int firstLayerNum;
+    // printf("输入第一层节点个数：");
+    // scanf("%d", &firstLayerNum);
+    
 
     int node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
      printf("一共将有%d个节点\n",node_num);

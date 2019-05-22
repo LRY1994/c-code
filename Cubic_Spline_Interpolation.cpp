@@ -84,7 +84,7 @@ double get_value(double xx){
 			break;
 		}
 	}
-	if(from==-1) return ;
+	if(from==-1) return -10;
 
 	double a1 = (xx - x[from]) / (x[to] - x[from]);
 	double a2 = (xx - x[to]) / (x[from] - x[to]);
