@@ -13,6 +13,11 @@ int main (){
     //     printf("m%d=%lf\n", i, m[i]); 
     // }
 
+    for (int i = 0;i<6;i++)  
+    {  	
+        printf("m%d=%lf\n", i, *(m+i)); 
+    }
+
    return 0;
  
 };

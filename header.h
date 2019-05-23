@@ -35,7 +35,7 @@ void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num);
 void depthFirstSearch(BTree root);
 
 //Cubic_Spline_Interpolation.cpp
-vector<double> interpolation(vector<Point> pointList,int option);
+double* interpolation(vector<Point> pointList,int option);
 double get_value(double xx);
 
 

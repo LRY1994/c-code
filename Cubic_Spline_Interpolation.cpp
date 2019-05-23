@@ -13,7 +13,7 @@ double  h[1000000];
 double a[1000000], b[1000000];
 double m[1000000];
 int n;
-vector<double>  interpolation(vector<Point> pointList,int option){
+double* interpolation(vector<Point> pointList,int option){
 	n = pointList.size()-1;
 	for (int i = 0; i <= n; i++) {
 		x[i] = pointList[i].x;
@@ -67,12 +67,12 @@ vector<double>  interpolation(vector<Point> pointList,int option){
 		// printf("m%d=%lf\n", i, m[i]);
 	}
 
-	vector<double> mVector;
-	for(int i=0;i<=n;i++){
-		mVector.push_back(m[i]);
-	}
+	// vector<double> mVector;
+	// for(int i=0;i<=n;i++){
+	// 	mVector.push_back(m[i]);
+	// }
 
-	return mVector;
+	return m;
 }
 
 double get_value(double xx){
