@@ -6,14 +6,12 @@
 #include "global.h"
 using namespace std;
 
-vector<double> exec(int segment,double initialVal,int firstLayerNum);
-
 int main (){
-    vector<double> m = exec(5,4,5);
-    for (int i = 0;i<m.size();i++)  
-    {  	
-        printf("m%d=%lf\n", i, m[i]); 
-    }
+   double* m = exec(5,4,5);
+    // for (int i = 0;i<m.size();i++)  
+    // {  	
+    //     printf("m%d=%lf\n", i, m[i]); 
+    // }
 
    return 0;
  
@@ -23,9 +21,9 @@ int main (){
  * @param {int} segment ，时间间隔数
  * @param {double} initialVal 初始温度
  * @param {int} firstLayerNum 第一层节点个数
- * @returns {null}
+ * @returns {vector<double>} 返回m数组
  */
-vector<double> exec(int segment,double initialVal,int firstLayerNum)
+double* exec(int segment,double initialVal,int firstLayerNum)
 {
     // int segment;
     // printf("输入时间间隔数：");
