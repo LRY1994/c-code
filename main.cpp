@@ -6,17 +6,18 @@
 #include "global.h"
 using namespace std;
 
-int main (){
-   double* m = exec(5,4,5);
-    // for (int i = 0;i<m.size();i++)  
-    // {  	
-    //     printf("m%d=%lf\n", i, m[i]); 
-    // }
 
-    for (int i = 0;i<6;i++)  
+int main (){
+   mArray = getMArray(5,4,5);
+    for (int i = 0;i<mArray.size();i++)  
     {  	
-        printf("m%d=%lf\n", i, *(m+i)); 
+        printf("m%d=%lf\n", i,getM(i)); 
     }
+
+    // for (int i = 0;i<6;i++)  
+    // {  	
+    //     printf("m%d=%lf\n", i, *(m+i)); 
+    // }
 
    return 0;
  
@@ -28,7 +29,7 @@ int main (){
  * @param {int} firstLayerNum 第一层节点个数
  * @returns {vector<double>} 返回m数组
  */
-double* exec(int segment,double initialVal,int firstLayerNum)
+vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
 {
     // int segment;
     // printf("输入时间间隔数：");
@@ -86,4 +87,9 @@ double* exec(int segment,double initialVal,int firstLayerNum)
 
     // return 0;
 }
+
+double getM(int index){
+    return mArray[index];
+}
+
 // g++ -fexec-charset=GBK main.cpp Tree.cpp Config.cpp Cubic_Spline_Interpolation.cpp && a.exe
