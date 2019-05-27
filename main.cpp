@@ -1,18 +1,18 @@
-/**
- * 一般树
- */
-#define GLOABL_C     
+  
 #include "header.h"
 #include "global.h"
 using namespace std;
 
-
+int min_sum = 99999999;
+vector<double> min_path;
+vector<double> mArray;
 int main (){
    mArray = getMArray(5,4,5);
     for (int i = 0;i<mArray.size();i++)  
     {  	
         printf("m%d=%lf\n", i,getM(i)); 
     }
+    getchar();
 
     // for (int i = 0;i<6;i++)  
     // {  	
@@ -42,8 +42,6 @@ vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
     // int firstLayerNum;
     // printf("输入第一层节点个数：");
     // scanf("%d", &firstLayerNum);
-    
-
     int node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
      printf("一共将有%d个节点\n",node_num);
 

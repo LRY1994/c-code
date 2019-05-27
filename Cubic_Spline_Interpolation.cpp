@@ -1,5 +1,4 @@
 //三次样条插值
-
 #pragma warning(disable:4996)
 #include<iostream>
 #include<cstdio>
