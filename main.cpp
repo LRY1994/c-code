@@ -3,25 +3,7 @@
 #include "global.h"
 using namespace std;
 
-int min_sum = 99999999;
-vector<double> min_path;
-vector<double> mArray;
-int main (){
-   mArray = getMArray(5,4,5);
-    for (int i = 0;i<mArray.size();i++)  
-    {  	
-        printf("m%d=%lf\n", i,getM(i)); 
-    }
-    getchar();
 
-    // for (int i = 0;i<6;i++)  
-    // {  	
-    //     printf("m%d=%lf\n", i, *(m+i)); 
-    // }
-
-   return 0;
- 
-};
 /**
  * @description 执行函数
  * @param {int} segment ，时间间隔数
@@ -31,17 +13,6 @@ int main (){
  */
 vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
 {
-    // int segment;
-    // printf("输入时间间隔数：");
-    // scanf("%d", &segment);
-
-    // double initialVal;
-    // printf("输入初始温度：");
-    // scanf("%lf", &initialVal);
-
-    // int firstLayerNum;
-    // printf("输入第一层节点个数：");
-    // scanf("%d", &firstLayerNum);
     int node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
      printf("一共将有%d个节点\n",node_num);
 
@@ -55,19 +26,19 @@ vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
     printf("最小功耗为%.2lf\n",min_sum);
 
     printf("最小功耗路径为:");
-    vector<Point> point;
+   
     for (int i = 0; i < min_path.size(); i++)
     {
         point.push_back(Point(i,min_path[i]));
         printf("%.2lf,", min_path[i]);
     }
 
-    printf("\n即将拟合的点是：\n");
+    // // printf("\n即将拟合的点是：\n");
     
-    for (int i = 0; i < point.size(); i++)
-    {   
-        printf("(%.0lf,%.2lf)   ", point[i].x,point[i].y);
-    }
+    // for (int i = 0; i < point.size(); i++)
+    // {   
+    //     printf("(%.0lf,%.2lf)   ", point[i].x,point[i].y);
+    // }
 
     
 		
@@ -90,4 +61,10 @@ double getM(int index){
     return mArray[index];
 }
 
-// g++ -fexec-charset=GBK main.cpp Tree.cpp Config.cpp Cubic_Spline_Interpolation.cpp && a.exe
+double getX(int index){
+ return point[index].x;
+}
+
+double getY(int index){
+ return point[index].y;
+}

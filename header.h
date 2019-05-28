@@ -38,8 +38,10 @@ void depthFirstSearch(BTree root);
 vector<double> interpolation(vector<Point> pointList,int option);
 double get_value(double xx);
 
-
+//main.cpp
 vector<double> getMArray(int segment,double initialVal,int firstLayerNum);
 double getM(int index);
+double getX(int index);
+double getY(int index);
 
 #endif
