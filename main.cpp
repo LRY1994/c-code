@@ -4,6 +4,11 @@
 using namespace std;
 
 
+int min_sum = 99999999;
+vector<double> min_path;
+vector<double> mArray;
+vector<Point> point;
+
 /**
  * @description 执行函数
  * @param {int} segment ，时间间隔数
@@ -68,3 +73,5 @@ double getX(int index){
 double getY(int index){
  return point[index].y;
 }
+
+// g++ -fexec-charset=GBK  main.cpp Tree.cpp Config.cpp Cubic_Spline_Interpolation.cpp && a.exe
