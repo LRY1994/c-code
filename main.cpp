@@ -8,7 +8,8 @@ int min_sum = 99999999;
 vector<double> min_path;
 vector<double> mArray;
 vector<Point> point;
-
+vector<double> pointX;
+vector<double> pointY;
 /**
  * @description 执行函数
  * @param {int} segment ，时间间隔数
@@ -35,6 +36,8 @@ vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
     for (int i = 0; i < min_path.size(); i++)
     {
         point.push_back(Point(i,min_path[i]));
+        pointX.push_back(i);
+        pointY.push_back(min_path[i]);
         printf("%.2lf,", min_path[i]);
     }
 
@@ -67,11 +70,11 @@ double getM(int index){
 }
 
 double getX(int index){
- return point[index].x;
+ return pointX[index];
 }
 
 double getY(int index){
- return point[index].y;
+ return pointY[index];
 }
 
 // g++ -fexec-charset=GBK  main.cpp Tree.cpp Config.cpp Cubic_Spline_Interpolation.cpp && a.exe
