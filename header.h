@@ -24,19 +24,19 @@ struct Point
     Point(double a,double b){ x=a;y=b;}
 };
 
-//Config.cpp
+//config.cpp
 double cal_power(double a, double b);
 double get_hightest_temp(double origin);
 double get_lowest_temp(double origin);
 double get_firstLayer_temp(int index,double rootVal);
 
-//Tree.cpp,里面用到了Config.cpp
-void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num);
+//tree.cpp,里面用到了config.cpp
+void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num);
 void depthFirstSearch(BTree root);
 
-//Cubic_Spline_Interpolation.cpp
+//spline.cpp
 vector<double> interpolation(vector<Point> pointList,int option);
-double get_value(double xx);
+double getValue(double xx);
 
 //main.cpp
 vector<double> getMArray(int segment,double initialVal,int firstLayerNum);

@@ -1,3 +1,3 @@
 
 在目录下运行
-g++ -fexec-charset=GBK main.cpp Tree.cpp Config.cpp Cubic_Spline_Interpolation.cpp && a.exe
+g++ -fexec-charset=GBK test.cpp main.cpp tree.cpp config.cpp spline.cpp && a.exe

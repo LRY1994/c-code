@@ -26,4 +26,4 @@ int main (){
    return 0;
  
 };
-// g++ -fexec-charset=GBK test.cpp main.cpp Tree.cpp Config.cpp Cubic_Spline_Interpolation.cpp && a.exe
+// g++ -fexec-charset=GBK test.cpp main.cpp tree.cpp config.cpp spline.cpp && a.exe

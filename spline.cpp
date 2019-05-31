@@ -74,7 +74,7 @@ vector<double> interpolation(vector<Point> pointList,int option){
 	return mVector;
 }
 
-double get_value(double xx){
+double getValue(double xx){
 	int from=-1, to=-1;
 	for (int i = 0; i <= n; i++){
 		// if (i == 0 && xx <= double(x[i + 1] )&& xx >= double(x[i])){

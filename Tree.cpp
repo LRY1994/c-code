@@ -2,7 +2,7 @@
 #include "global.h"
 using namespace std;
 
-void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
+void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
 {
     int count_num = 0; 
     vector<BTNode *> list;
