@@ -23,7 +23,7 @@ vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
      printf("一共将有%d个节点\n",node_num);
 
     BTree tree;
-    CreatBTree(tree, initialVal ,firstLayerNum,node_num);
+    creatBTree(tree, initialVal ,firstLayerNum,node_num);
 
     // printf("深度优先遍历二叉树结果(包括剪枝): \n");
 
