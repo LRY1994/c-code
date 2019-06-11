@@ -1,5 +1,9 @@
 // battery model section
 // all parameters are here
+#include <iostream>
+using namespace std;
+
+
 double Tenv = -10;
 double E = 0;
 double I = 1;
@@ -68,7 +72,14 @@ double cal_power(double parent, double child)
     double Pcool = getPcool(parent,child);
     double Pexo = getPexo();
     double Pptc = getPptc(parent,child,Pcool,Pexo);
-       
+//        cout<<Tmin<<endl;
+//          cout<<Tmax<<endl;
+//            cout<<Pcool<<endl;
+//              cout<<Pexo<<endl;
+//                cout<<Pptc<<endl;
+// cout<<(Pptc/48+I)*Qt/Q0*time<<endl;
+//                cout<<endl;
+
     return (Pptc/48+I)*Qt/Q0*time;
 
 }

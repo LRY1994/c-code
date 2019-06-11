@@ -4,7 +4,7 @@
 using namespace std;
 
 
-int min_sum = 99999999;
+double min_sum = 99999999;
 vector<double> min_path;
 vector<double> mArray;
 vector<Point> point;
@@ -14,18 +14,18 @@ vector<double> pointY;
  * @description 执行函数
  * @param {int} segment ，时间间隔数
  * @param {double} initialVal 初始温度
- * @param {int} firstLayerNum 第一层节点个数
+ * @param {int} firstLayerNum 第一层节点个�?
  * @returns {vector<double>} 返回m数组
  */
 vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
 {
     int node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
-     printf("一共将有%d个节点\n",node_num);
+     printf("一共将�?%d个节点\n",node_num);
 
     BTree tree;
     creatBTree(tree, initialVal ,firstLayerNum,node_num);
 
-    // printf("深度优先遍历二叉树结果(包括剪枝): \n");
+    // printf("深度优先遍历二叉树结�?(包括剪枝): \n");
 
     depthFirstSearch(tree);
 
@@ -50,15 +50,15 @@ vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
 
     
 		
-	printf("\n开始三次样条插值......\n");
+	printf("\n开始三次样条插�?......\n");
     return interpolation(point,2);
 
 
     // double xx;
-    // printf("输入x：");
+    // printf("输入x�?");
     // while(scanf("%lf", &xx)){
     //     printf("f(%lf) is %lf\n", xx, get_value(xx));
-    //     printf("输入x：");
+    //     printf("输入x�?");
     // }
     
 

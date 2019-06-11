@@ -2,7 +2,7 @@
 using namespace std;
 
 #ifdef GLOABL_C
-    int min_sum = 99999999;
+    double min_sum = 99999999;
     vector<double> min_path;
     vector<double> mArray;
     vector<Point> point;
@@ -10,7 +10,7 @@ using namespace std;
     vector<double> pointY; 
     
 #else  
-    extern  int min_sum ;
+    extern  double min_sum ;
     extern vector<double> min_path;
     extern vector<double> mArray;
     extern vector<Point> point; 

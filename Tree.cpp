@@ -40,7 +40,7 @@ void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
             BTNode *node = list[i];
             double high = get_highest_temp(node->temperature) ;
             double low = get_lowest_temp(node->temperature) ;
-            double dist = high + low;
+            double dist = high - low;
             //左节点
             tmp = new BTNode();
             tmp->temperature = low + dist * 0.25;
@@ -50,7 +50,7 @@ void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
             tmplist.push_back(tmp);
             //右节点
             tmp = new BTNode();
-            tmp->temperature = high - dist *0.25;
+            tmp->temperature = high - dist * 0.25;
             tmp->sum=0;
             count_num++;
             node->children.push_back(tmp);
@@ -80,6 +80,7 @@ void depthFirstSearch(BTree root)
         for(int i=0;i<node->children.size();i++){
             child = node->children[i];
             child->sum = node->sum + cal_power(node->temperature, child->temperature);
+           
             if (child->sum < min_sum)
             { //剪枝
                 child->path = tmp;
