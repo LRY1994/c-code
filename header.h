@@ -26,9 +26,9 @@ struct Point
 
 //config.cpp
 double cal_power(double a, double b);
-double get_hightest_temp(double origin);
+double get_highest_temp(double origin);
 double get_lowest_temp(double origin);
-double get_firstLayer_temp(int index,double rootVal);
+double get_firstLayer_temp(int index,double parent,int N);
 
 //tree.cpp,里面用到了config.cpp
 void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num);
