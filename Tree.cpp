@@ -2,24 +2,24 @@
 #include "global.h"
 using namespace std;
 
-void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
+void CreatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
 {
     int count_num = 0; 
     vector<BTNode *> list;
 
-    //æ ¹
+    //¸ù
     root = new BTNode();
     root->temperature = initial;
     root->sum = 0;
     root->path.push_back(root->temperature);
     count_num++;  
 
-    //ç¬¬ä¸€å±‚
+    //µÚÒ»²ã
     BTNode * tmp;int i=0;
     while(i<firstLayerNum){
         i++;
         tmp = new BTNode();
-        tmp->temperature = get_firstLayer_temp(i,initial);
+        tmp->temperature = get_firstLayer_temp(i,initial,firstLayerNum);
         tmp->sum = 0;
         tmp->path.push_back(root->temperature);
 
@@ -36,17 +36,21 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
 
         for (int i = 0; i < list.size(); i++)
         {
+            
             BTNode *node = list[i];
-            //å·¦èŠ‚ç‚¹
+            double high = get_highest_temp(node->temperature) ;
+            double low = get_lowest_temp(node->temperature) ;
+            double dist = high + low;
+            //×ó½Úµã
             tmp = new BTNode();
-            tmp->temperature = get_lowest_temp(node->temperature);
+            tmp->temperature = low + dist * 0.25;
             tmp->sum=0;
             count_num++;
             node->children.push_back(tmp);
             tmplist.push_back(tmp);
-            //å³èŠ‚ç‚¹
+            //ÓÒ½Úµã
             tmp = new BTNode();
-            tmp->temperature = get_hightest_temp(node->temperature);
+            tmp->temperature = high - dist *0.25;
             tmp->sum=0;
             count_num++;
             node->children.push_back(tmp);
@@ -77,7 +81,7 @@ void depthFirstSearch(BTree root)
             child = node->children[i];
             child->sum = node->sum + cal_power(node->temperature, child->temperature);
             if (child->sum < min_sum)
-            { //å‰ªæž
+            { //¼ôÖ¦
                 child->path = tmp;
                 child->path.push_back(child->temperature);
                 nodeStack.push(child); 
@@ -85,7 +89,7 @@ void depthFirstSearch(BTree root)
         }
 
         if (node->children.size() == 0)
-        { //å¶å­èŠ‚ç‚¹
+        { //Ò¶×Ó½Úµã
             if (node->sum < min_sum)
             {
                 min_sum = node->sum;
