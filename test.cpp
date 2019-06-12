@@ -5,13 +5,14 @@ using namespace std;
 
 
 int main (){
-    mArray = getMArray(5,4,5);
+    mArray = getMArray(5,0,5);
+    getDt(5);
     
     for (int i = 0;i < mArray.size();i++)  
     {  	
         printf("m%d=%lf\n", i, getM(i)); 
     }
-      printf("\n拟合的点是：\n");
+      printf("\npoints are��\n");
      for (int i = 0; i < point.size(); i++)
     {   
         printf("(%.0lf,%.2lf)   ", getX(i), getY(i));

@@ -11,7 +11,8 @@ using namespace std;
 
 typedef struct BTNode
 {
-    double temperature; 
+    double temperature;
+    int layer; 
     double sum;         
     vector<double> path;
     vector<BTNode *> children;
@@ -19,16 +20,18 @@ typedef struct BTNode
 
 struct Point 
 {
-    double x;//时间
-    double y;//温度
+    double x;//time
+    double y;//temparature
     Point(double a,double b){ x=a;y=b;}
 };
 
 //config.cpp
-double cal_power(double a, double b);
-double get_highest_temp(double origin);
-double get_lowest_temp(double origin);
-double get_firstLayer_temp(int index,double parent,int N);
+double cal_power(double parent, double child,int layer);
+double get_highest_temp(double T,int layer);
+double get_lowest_temp(double T,int layer);
+double get_firstLayer_temp(int n,double parent,int N,int layer);
+double getTime(double lastTime,int layer);
+void getDt(int segment);
 
 //tree.cpp,里面用到了config.cpp
 void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num);
