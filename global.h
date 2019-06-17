@@ -16,4 +16,5 @@ using namespace std;
     extern vector<Point> point; 
     extern vector<double> pointX;
     extern vector<double> pointY;  
+  
 #endif  

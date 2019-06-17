@@ -19,13 +19,14 @@ vector<double> pointY;
 vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
 {
     int node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
-     printf("there are %.2lf nodes\n",node_num);
+     printf("there are %ld nodes\n",node_num);
 
     BTree tree;
     creatBTree(tree, initialVal ,firstLayerNum,node_num);
 
-
+ 
     depthFirstSearch(tree);
+    
 
     printf("min_sum is %.2lf\n",min_sum);
 
