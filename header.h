@@ -26,16 +26,17 @@ struct Point
 };
 
 //config.cpp
-double cal_power(double parent, double child,int layer);
-double get_highest_temp(double T,int layer);
-double get_lowest_temp(double T,int layer);
-double get_firstLayer_temp(int n,double parent,int N,int layer);
+double getI();
+double cal_power(double parent, double child,int layer,double I);
+double get_highest_temp(double T,int layer,double I);
+double get_lowest_temp(double T,int layer,double I);
+double get_firstLayer_temp(int n,double parent,int N,int layer,double I);
 double getTime(double lastTime,int layer);
-void getDt(int segment);
+void getDt(int segment,double I);
 
 //tree.cpp,里面用到了config.cpp
-void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num);
-void depthFirstSearch(BTree root);
+void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,double I);
+void depthFirstSearch(BTree root,double I);
 
 //spline.cpp
 vector<double> interpolation(vector<Point> pointList,int option);

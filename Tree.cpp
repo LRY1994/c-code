@@ -2,7 +2,7 @@
 #include "global.h"
 using namespace std;
 
-void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
+void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,double I)
 {
     int count_num = 0; 
     vector<BTNode *> list;
@@ -20,7 +20,7 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
     while(i<firstLayerNum){
         i++;
         tmp = new BTNode();
-        tmp->temperature = get_firstLayer_temp(i,initial,firstLayerNum,1);
+        tmp->temperature = get_firstLayer_temp(i,initial,firstLayerNum,1,I);
         tmp->sum = 0;
         tmp->layer = 1;
         tmp->path.push_back(root->temperature);
@@ -40,8 +40,8 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
         {
             
             BTNode *node = list[i];
-            double high = get_highest_temp(node->temperature,node->layer) ;
-            double low = get_lowest_temp(node->temperature,node->layer) ;
+            double high = get_highest_temp(node->temperature,node->layer,I) ;
+            double low = get_lowest_temp(node->temperature,node->layer,I) ;
             double dist = high - low;
             //left node
             tmp = new BTNode();
@@ -65,7 +65,7 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num)
     }
 }
 
-void depthFirstSearch(BTree root)
+void depthFirstSearch(BTree root,double I)
 {
     stack<BTNode *> nodeStack; 
     nodeStack.push(root);
@@ -83,7 +83,7 @@ void depthFirstSearch(BTree root)
         BTNode *child;
         for(int i=0;i<node->children.size();i++){
             child = node->children[i];
-            child->sum = node->sum + cal_power(node->temperature, child->temperature,node->layer);
+            child->sum = node->sum + cal_power(node->temperature, child->temperature,node->layer,I);
            
             if (child->sum < min_sum)
             { //pruning

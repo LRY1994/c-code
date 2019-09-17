@@ -284,7 +284,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     int_T         nX = ssGetOutputPortWidth(S,1);
     int_T         nY = ssGetOutputPortWidth(S,2);
     // Algorithm_Outputs_wrapper(N, init_temp, FirstNum, M, X, Y);
-    mArray = getMArray(*N,*init_temp,*FirstNum);
+    mArray = getMArray(*N,*init_temp,*FirstNum,*I);
     int_T j;
     for (j = 0; j < nM; j++) {
     M[j] = getM(j);

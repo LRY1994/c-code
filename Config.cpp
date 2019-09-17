@@ -5,83 +5,117 @@
 using namespace std;
 
 
-const double  Tenv = -10;
+const double Tenv = -10;
 const double E = 0;
-const double I = 1;
-const double deltax = 0.1;
-const double lamda = 0.1;
-const double ha = 0.1;
-const double A = 1;
-const double R = 1;
+const double deltax = 0.01;
+const double lamda = 0.03;
+const double ha = 7.5;
+const double A = 0.54;
 const double Pmax = 500;
-const double Qt = 30;
 const double Q0 = 37;
-const double Ctotal = 100;
-
+const double Ctotal = 19501.272;
+const double SOC0 = 1;
+const double Uptc = 48;
 
 vector<double> dt;
 
-
-//cooling power
-double getPcool(double T,double Tnex) {
-    return ((Tnex+T)/2-Tenv)/(deltax/(lamda*A)+1/(ha*A));
-}
-//exo power
-double getPexo() {
-    return I*I*R;
-}
-//delta temperature
-double getdeltaT(double Pptc,double Pcool,double Pexo,double time) {
-    return (Pptc-Pcool+Pexo)*time/Ctotal;
-}
-//PTC power
-double getPptc(double T,double Tnex,double Pcool,double Pexo,double time) { 
-    return (Tnex-T)*Ctotal/time+Pcool-Pexo;
+// Input I algorithm（还没完成）
+double getI(){
+    return 37;
 }
 
-
-double get_highest_temp(double T,int layer)
-{  
-    double Pcool = getPcool(T,T);
-    double Pexo = getPexo();
-    double Pptc = Pmax;
-    return getdeltaT(Pptc,Pcool,Pexo,dt[layer-1]) + T;
-
-}
-
-double get_lowest_temp(double T,int layer)
-{
-    double Pcool = getPcool(T,T);
-    double Pexo = getPexo();
-    double Pptc = 0;
-    return getdeltaT(Pptc,Pcool,Pexo,dt[layer-1]) + T;
-}
-
-double get_firstLayer_temp(int n,double parent,int N,int layer){
-    double Tmin = get_lowest_temp(parent,layer);
-    double Tmax = get_highest_temp(parent,layer);
-
-    return (2*n+1)/2*N*Tmin+(2*N-2*n-1)/2*N*Tmax;
-   
-}
-
-double cal_power(double parent, double child,int layer)
-{
-    double Tmin = get_lowest_temp(parent,layer);
-    double Tmax = get_highest_temp(parent,layer);
-    double Pcool = getPcool(parent,child);
-    double Pexo = getPexo();
-    double Pptc = getPptc(parent,child,Pcool,Pexo,dt[layer-1]);
-    return (Pptc/48+I)*Qt/Q0*dt[layer-1];
-
+// adaptive dt algorithm（可选）
+void getDt(int segment,double I){
+    for(int i=0;i<segment;i++){
+        dt.push_back(10);
+    }
 }
 
 double getTime(double lastTime,int layer){
     return lastTime + dt[layer-1];
 }
 
-void getDt(int segment){
-    for(int i=0;i<segment;i++){
-        dt.push_back(1);
-    }
+//Qt
+double getQt(double I,double Tnex){
+    double Beta = I/37;
+     return 0.37*(89.4 + -3.163*Beta + 8.68*Tnex + 2.17*Beta*Beta + 8.639*Beta*Tnex + -8.732*Tnex*Tnex+ 0.2467*Beta*Beta*Beta 
+     + 0.002463*Beta*Beta*Tnex + -11.48*Beta*Tnex*Tnex + 13.26*Tnex*Tnex*Tnex + -1.727*Beta*Beta*Beta*Beta 
+     + -1.372*Beta*Beta*Beta*Tnex + -0.5792*Beta*Beta*Tnex*Tnex + 0.09279*Beta*Tnex*Tnex*Tnex + -1.282*Tnex*Tnex*Tnex*Tnex 
+     + 1.096*Beta*Beta*Beta*Beta*Tnex + 0.9156*Beta*Beta*Beta*Tnex*Tnex + -0.3832*Beta*Beta*Tnex*Tnex*Tnex 
+     + 2.404*Beta*Tnex*Tnex*Tnex*Tnex + -3.912*Tnex*Tnex*Tnex*Tnex*Tnex);
 }
+
+//SOC 
+double getDsoc(double I,double Pptc,double Tnex){
+    double Qt = getQt(I,Tnex);
+    return (I+Pptc/Uptc)/Qt*(dt[1]/3600);
+}
+
+//R0
+double SOC = SOC0;
+double getR(double T,double I,double Pptc){
+    SOC = SOC - getDsoc(I,Pptc,T);
+    return (5.92910+0.03751*T-13.36710*SOC+16.52510*SOC*SOC-6.23355*SOC*SOC*SOC)/
+    (1+0.06745*T+9.76290*0.0001*T*T-3.41128*0.00001*T*T*T-0.48719*SOC+0.34875*SOC*SOC);
+}
+
+//cooling power
+double getPcool(double T,double Tnex) {
+    return ((Tnex+T)/2-Tenv)/(deltax/(lamda*A)+1/(ha*A));
+}
+
+//exo power
+double getPexo(double T,double I,double Pptc) {
+    double R = getR(T,I,Pptc);
+    return I*I*R;
+}
+
+//delta temperature
+double getdeltaT(double Pptc,double Pcool,double Pexo,double time) {
+    return (Pptc-Pcool+Pexo)*time/Ctotal;
+}
+
+//PTC power
+double getPptc(double T,double Tnex,double Pcool,double Pexo,double time) { 
+    return (Tnex-T)*Ctotal/time+Pcool-Pexo;
+}
+
+
+double get_highest_temp(double T,int layer,double I)
+{  
+    double Pptc = Pmax;
+    double Pcool = getPcool(T,T);
+    double Pexo = getPexo(T,I,Pptc);
+    return getdeltaT(Pptc,Pcool,Pexo,dt[layer-1]) + T;
+
+}
+
+double get_lowest_temp(double T,int layer,double I)
+{
+    double Pptc = 0;
+    double Pcool = getPcool(T,T);
+    double Pexo = getPexo(T,I,Pptc);
+    return getdeltaT(Pptc,Pcool,Pexo,dt[layer-1]) + T;
+}
+
+double get_firstLayer_temp(int n,double parent,int N,int layer,double I){
+    double Tmin = get_lowest_temp(parent,layer,I);
+    double Tmax = get_highest_temp(parent,layer,I);
+
+    return (2*n+1)/2*N*Tmin+(2*N-2*n-1)/2*N*Tmax;
+   
+}
+
+//T is parent,Tnex is child
+double cal_power(double parent,double child,int layer,double I)
+{
+    // double Tmin = get_lowest_temp(parent,layer,I);
+    // double Tmax = get_highest_temp(parent,layer,I);
+    double Qt = getQt(I,child);
+    double Pcool = getPcool(parent,child);
+    double Pexo = getPexo(parent,I,0);
+    double Pptc = getPptc(parent,child,Pcool,Pexo,dt[layer-1]);
+    return (Pptc/48+I) * (Q0/Qt) * (dt[layer-1]/3600);
+
+}
+

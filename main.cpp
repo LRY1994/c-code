@@ -18,19 +18,21 @@ vector<double> pointY;
  */
 vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
 {
+    double I = getI();
+    getDt(segment,I);
     int node_num = firstLayerNum * (pow(2, segment) - 1) + 1;
      printf("there are %ld nodes\n",node_num);
 
     BTree tree;
-    creatBTree(tree, initialVal ,firstLayerNum,node_num);
+    creatBTree(tree, initialVal ,firstLayerNum,node_num,I);
 
  
-    depthFirstSearch(tree);
+    depthFirstSearch(tree,I);
     
 
-    printf("min_sum is %.2lf\n",min_sum);
+    printf("the min_cost of Ah is %.2lf\n",min_sum);
 
-    printf("min_sum path is:");
+    printf("the temperature of min_sum path is:");
    
     double t;
     for (int i = 0; i < min_path.size(); i++)

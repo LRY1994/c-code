@@ -5,8 +5,8 @@ using namespace std;
 
 
 int main (){
-    getDt(5);   
-    mArray = getMArray(5,0,5);
+    
+    mArray = getMArray(5,0,5); // 层数；初始温度；第一层分裂数
     
     for (int i = 0;i < mArray.size();i++)  
     {  	
@@ -22,4 +22,4 @@ int main (){
    return 0;
  
 };
-// g++ -fexec-charset=GBK test.cpp main.cpp tree.cpp config.cpp spline.cpp && a.exe
+// g++ test.cpp main.cpp tree.cpp config.cpp spline.cpp
