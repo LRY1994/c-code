@@ -11,18 +11,18 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,dou
     root = new BTNode();
     root->temperature = initial;
     root->sum = 0;
-    root->layer = 0;
+    root->layer = 1;
     root->path.push_back(root->temperature);
     count_num++;  
 
-    //first layer
+    //first layer，下标从1开始
     BTNode * tmp;int i=0;
     while(i<firstLayerNum){
         i++;
         tmp = new BTNode();
-        tmp->temperature = get_firstLayer_temp(i,initial,firstLayerNum,1,I);
+        tmp->temperature = get_firstLayer_temp(i,firstLayerNum,initial,I);
         tmp->sum = 0;
-        tmp->layer = 1;
+        tmp->layer = root->layer + 1 ;
         tmp->path.push_back(root->temperature);
 
         root->children.push_back(tmp);
@@ -31,14 +31,13 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,dou
         list.push_back(tmp);
     }
 
-    
+    vector<BTNode *> tmplist;
     while (count_num < node_num)
     {
-        vector<BTNode *> tmplist;
-
+        
+        tmplist.clear();
         for (int i = 0; i < list.size(); i++)
-        {
-            
+        {         
             BTNode *node = list[i];
             double high = get_highest_temp(node->temperature,node->layer,I) ;
             double low = get_lowest_temp(node->temperature,node->layer,I) ;
@@ -78,16 +77,21 @@ void depthFirstSearch(BTree root,double I)
         node = nodeStack.top();
         // printf("%lf\n", node->temperature); 
         nodeStack.pop();
-        tmp = node->path;
 
         BTNode *child;
-        for(int i=0;i<node->children.size();i++){
+        for(int i = 0;i < node->children.size();i++){
             child = node->children[i];
-            child->sum = node->sum + cal_power(node->temperature, child->temperature,node->layer,I);
+
+            double parentT = node->temperature;
+            double childT = child->temperature;
+            double power = cal_power(parentT, childT, node->layer , I);
+            child->sum = node->sum + power;
+           
+            // printf("parentT:%lf;childT:%lf;layer:%ld;power:%lf\n",parentT,childT,node->layer, power);
            
             if (child->sum < min_sum)
             { //pruning
-                child->path = tmp;
+                child->path = node->path;
                 child->path.push_back(child->temperature);
                 nodeStack.push(child); 
             }
