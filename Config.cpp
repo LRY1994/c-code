@@ -76,8 +76,20 @@ double getDsoc(double I,double Pptc,double Tnex){
 double SOC = SOC0;
 double getR(double T,double I,double Pptc){
     SOC = SOC - getDsoc(I,Pptc,T);
-    return (5.92910+0.03751*T-13.36710*SOC+16.52510*SOC*SOC-6.23355*SOC*SOC*SOC)/
-    (1+0.06745*T+9.76290*0.0001*T*T-3.41128*0.00001*T*T*T-0.48719*SOC+0.34875*SOC*SOC);
+    return(  
+        5.92910 + 
+        0.03751 * T -
+        13.36710*SOC +
+        16.52510*SOC*SOC-
+        6.23355*SOC*SOC*SOC)
+        /
+        (
+        1 + 
+        0.06745 * T +
+        9.76290 * 0.0001 * T * T -
+        3.41128 * 0.00001 * T * T* T -
+        0.48719 * SOC+
+        0.34875 * SOC * SOC);
 }
 
 //cooling power
