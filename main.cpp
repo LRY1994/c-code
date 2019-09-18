@@ -1,5 +1,6 @@
 #include "header.h"
 #include "global.h"
+#include "Lookuptable.h"
 using namespace std;
 
 

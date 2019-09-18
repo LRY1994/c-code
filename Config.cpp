@@ -1,7 +1,9 @@
 // battery model section
 // all parameters are here
 #include <iostream>
-#include<vector>
+#include <vector>
+#include "Lookuptable.h"
+#include "rtwtypes.h"
 using namespace std;
 
 
@@ -16,6 +18,8 @@ const double Q0 = 37;
 const double Ctotal = 19501.272;
 const double SOC0 = 1;
 const double Uptc = 48;
+
+static LookuptableModelClass *rtObj= new  LookuptableModelClass();
 
 vector<double> dt;
 
@@ -35,28 +39,35 @@ double getTime(double lastTime,int layer){
     return lastTime + dt[layer-1];
 }
 
-//Qt
+//Qt(还没完成)
 double getQt(double I,double Tnex){
     double Beta = I/37;
-     return 0.37*(89.4 + -3.163*Beta + 8.68*Tnex + 2.17*Beta*Beta + 8.639*Beta*Tnex + -8.732*Tnex*Tnex+ 0.2467*Beta*Beta*Beta 
-     + 0.002463*Beta*Beta*Tnex + -11.48*Beta*Tnex*Tnex + 13.26*Tnex*Tnex*Tnex + -1.727*Beta*Beta*Beta*Beta 
-     + -1.372*Beta*Beta*Beta*Tnex + -0.5792*Beta*Beta*Tnex*Tnex + 0.09279*Beta*Tnex*Tnex*Tnex + -1.282*Tnex*Tnex*Tnex*Tnex 
-     + 1.096*Beta*Beta*Beta*Beta*Tnex + 0.9156*Beta*Beta*Beta*Tnex*Tnex + -0.3832*Beta*Beta*Tnex*Tnex*Tnex 
-     + 2.404*Beta*Tnex*Tnex*Tnex*Tnex + -3.912*Tnex*Tnex*Tnex*Tnex*Tnex);
+    rtObj->initialize();
+    rtObj->rtU.Tnex = Tnex;
+    rtObj->rtU.Beta = Beta;
+    rtObj->step();
+    double Qt = rtObj->rtY.Qt;
+    return Qt;
+    //  }
+
+
 }
 
-//SOC 
-double getDsoc(double I,double Pptc,double Tnex){
+//DeltaSOC 
+double getDsoc(double I,double Pptc,double Tnex,int layer){
     double Qt = getQt(I,Tnex);
-    return (I+Pptc/Uptc)/Qt*(dt[1]/3600);
+    return (I+Pptc/Uptc)*(dt[layer-1]/3600)/Qt;
 }
 
-//R0
+//R0（还没完成）
 double SOC = SOC0;
-double getR(double T,double I,double Pptc){
-    SOC = SOC - getDsoc(I,Pptc,T);
-    return (5.92910+0.03751*T-13.36710*SOC+16.52510*SOC*SOC-6.23355*SOC*SOC*SOC)/
-    (1+0.06745*T+9.76290*0.0001*T*T-3.41128*0.00001*T*T*T-0.48719*SOC+0.34875*SOC*SOC);
+double getR(double T,double I,double Pptc,int layer){
+    SOC = SOC - getDsoc(I,Pptc,T,layer);
+    rtObj->rtU.T = T;
+    rtObj->rtU.SOC = SOC;
+    rtObj->step();
+    double R0 = rtObj->rtY.Qt;
+    return R0;
 }
 
 //cooling power
@@ -65,8 +76,8 @@ double getPcool(double T,double Tnex) {
 }
 
 //exo power
-double getPexo(double T,double I,double Pptc) {
-    double R = getR(T,I,Pptc);
+double getPexo(double T,double I,double Pptc,int layer) {
+    double R = getR(T,I,Pptc,layer);
     return I*I*R;
 }
 
@@ -85,7 +96,7 @@ double get_highest_temp(double T,int layer,double I)
 {  
     double Pptc = Pmax;
     double Pcool = getPcool(T,T);
-    double Pexo = getPexo(T,I,Pptc);
+    double Pexo = getPexo(T,I,Pptc,layer);
     return getdeltaT(Pptc,Pcool,Pexo,dt[layer-1]) + T;
 
 }
@@ -94,15 +105,15 @@ double get_lowest_temp(double T,int layer,double I)
 {
     double Pptc = 0;
     double Pcool = getPcool(T,T);
-    double Pexo = getPexo(T,I,Pptc);
+    double Pexo = getPexo(T,I,Pptc,layer);
     return getdeltaT(Pptc,Pcool,Pexo,dt[layer-1]) + T;
 }
 
-double get_firstLayer_temp(int n,double parent,int N,int layer,double I){
+double get_firstLayer_temp(int i,double parent,int N,int layer,double I){
     double Tmin = get_lowest_temp(parent,layer,I);
     double Tmax = get_highest_temp(parent,layer,I);
 
-    return (2*n+1)/2*N*Tmin+(2*N-2*n-1)/2*N*Tmax;
+    return (2*N-2*i+1)*Tmin/(2*N)+(2*i-1)*Tmax/(2*N);
    
 }
 
@@ -113,7 +124,7 @@ double cal_power(double parent,double child,int layer,double I)
     // double Tmax = get_highest_temp(parent,layer,I);
     double Qt = getQt(I,child);
     double Pcool = getPcool(parent,child);
-    double Pexo = getPexo(parent,I,0);
+    double Pexo = getPexo(parent,I,0,layer);
     double Pptc = getPptc(parent,child,Pcool,Pexo,dt[layer-1]);
     return (Pptc/48+I) * (Q0/Qt) * (dt[layer-1]/3600);
 
