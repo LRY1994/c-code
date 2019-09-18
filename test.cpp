@@ -22,4 +22,4 @@ int main (){
    return 0;
  
 };
-// g++ test.cpp main.cpp tree.cpp config.cpp spline.cpp
+// g++ test.cpp main.cpp tree.cpp config.cpp spline.cpp Lookuptable.cpp Lookuptable_data.cpp

@@ -25,6 +25,7 @@ vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
      printf("there are %ld nodes\n",node_num);
 
     BTree tree;
+    
     creatBTree(tree, initialVal ,firstLayerNum,node_num,I);
 
  
