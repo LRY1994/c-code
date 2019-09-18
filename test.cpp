@@ -6,7 +6,7 @@ using namespace std;
 
 int main (){
     
-    mArray = getMArray(2,0,5); // 时间间隔数；初始温度；第一层分裂数
+    mArray = getMArray(3,-20,5); // 时间间隔数；初始温度；第一层分裂数
     
     for (int i = 0;i < mArray.size();i++)  
     {  	
@@ -22,4 +22,4 @@ int main (){
    return 0;
  
 };
-// g++ test.cpp main.cpp tree.cpp config.cpp spline.cpp
+// g++ test.cpp main.cpp tree.cpp config.cpp spline.cpp Lookuptable.cpp Lookuptable_data.cpp
