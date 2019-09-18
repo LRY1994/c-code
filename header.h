@@ -30,7 +30,7 @@ double getI();
 double cal_power(double parent, double child,int layer,double I);
 double get_highest_temp(double T,int layer,double I);
 double get_lowest_temp(double T,int layer,double I);
-double get_firstLayer_temp(int n,double parent,int N,int layer,double I);
+double get_firstLayer_temp(int i,int N,double parentT,double I);
 double getTime(double lastTime,int layer);
 void getDt(int segment,double I);
 

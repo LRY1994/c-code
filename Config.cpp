@@ -48,9 +48,6 @@ double getQt(double I,double Tnex){
     rtObj->step();
     double Qt = rtObj->rtY.Qt;
     return Qt;
-    //  }
-
-
 }
 
 //DeltaSOC 
@@ -88,6 +85,7 @@ double getdeltaT(double Pptc,double Pcool,double Pexo,double time) {
 
 //PTC power
 double getPptc(double T,double Tnex,double Pcool,double Pexo,double time) { 
+
     return (Tnex-T)*Ctotal/time+Pcool-Pexo;
 }
 
@@ -108,15 +106,33 @@ double get_lowest_temp(double T,int layer,double I)
     double Pexo = getPexo(T,I,Pptc,layer);
     return getdeltaT(Pptc,Pcool,Pexo,dt[layer-1]) + T;
 }
+/**
+* define first layer temperature
+* i :index of childNodes
+* N :number of first layer nodes
+* parentT :the temperature of parent 
+* 
+*/
+double get_firstLayer_temp(int i,int N,double parentT,double I){
+    const int layer = 1;
+    double Tmin = get_lowest_temp(parentT,layer,I);
+    double Tmax = get_highest_temp(parentT,layer,I);
+    double const M = 2*N;
+    double childT = ( M - 2 * i + 1) * Tmin/ M  + (2 * i - 1) * Tmax/ M ;
 
-double get_firstLayer_temp(int i,double parent,int N,int layer,double I){
-    double Tmin = get_lowest_temp(parent,layer,I);
-    double Tmax = get_highest_temp(parent,layer,I);
-
-    return (2*N-2*i+1)*Tmin/(2*N)+(2*i-1)*Tmax/(2*N);
+    printf("parentT:%lf\n",parentT);
+    printf("childTmin:%lf\n",Tmin);
+    printf("childTmax:%lf\n",Tmax);
+    printf("childT:%lf\n",childT);
+ 
+    return childT;
    
 }
-
+/**
+* parentT :parent's temperature
+* childT:child's temperature
+* layer: parent's layer,begin with 1
+*/
 //T is parent,Tnex is child
 double cal_power(double parent,double child,int layer,double I)
 {
@@ -126,6 +142,7 @@ double cal_power(double parent,double child,int layer,double I)
     double Pcool = getPcool(parent,child);
     double Pexo = getPexo(parent,I,0,layer);
     double Pptc = getPptc(parent,child,Pcool,Pexo,dt[layer-1]);
+    printf("Qt:%.4lf; Pcool:%.4lf; Pexo:%.4lf; Pptc:%.4lf; layer:%ld\n",Qt, Pcool, Pexo, Pptc,layer);
     return (Pptc/48+I) * (Q0/Qt) * (dt[layer-1]/3600);
 
 }
