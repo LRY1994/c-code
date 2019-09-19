@@ -155,12 +155,13 @@
 #include "simstruc.h"
 #include "header.h"
 #include "global.h"
-// extern void Algorithm_Outputs_wrapper(const real_T *N,
-// 			const real_T *init_temp,
-// 			const real_T *FirstNum,
-// 			real_T *M,
-// 			real_T *X,
-// 			real_T *Y);
+#include "Lookuptable.h"
+extern void Algorithm_Outputs_wrapper(const real_T *N,
+			const real_T *init_temp,
+			const real_T *FirstNum,
+			real_T *M,
+			real_T *X,
+			real_T *Y);
 
 /*====================*
  * S-function methods *
@@ -283,8 +284,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     int_T         nM = ssGetOutputPortWidth(S,0);
     int_T         nX = ssGetOutputPortWidth(S,1);
     int_T         nY = ssGetOutputPortWidth(S,2);
-    // Algorithm_Outputs_wrapper(N, init_temp, FirstNum, M, X, Y);
-    mArray = getMArray(*N,*init_temp,*FirstNum,*I);
+    Algorithm_Outputs_wrapper(N, init_temp, FirstNum, M, X, Y);
+    mArray = getMArray(*N,*init_temp,*FirstNum);
     int_T j;
     for (j = 0; j < nM; j++) {
     M[j] = getM(j);

@@ -14,7 +14,7 @@ typedef struct BTNode
     double temperature;
     int layer; 
     double sum;    
-    double socc;     
+    int SOC;     
     vector<double> path;
     vector<BTNode *> children;
 } * BTree;
@@ -23,7 +23,7 @@ struct Point
 {
     double x;//time
     double y;//temparature
-    Point(double a,double b){ x=a;y=b;}
+    Point(double a,double b){x=a;y=b;}
 };
 
 //config.cpp
@@ -34,7 +34,10 @@ double get_lowest_temp(double T,int layer,double I,double SOC);
 double get_firstLayer_temp(int i,int N,double parentT,double I,double SOC);
 double getTime(double lastTime,int layer);
 void getDt(int segment,double I);
-double getDsoc(double I,double Pptc,double Tnex,int layer);
+double getDsoc(double I,double Pptc,double T,int layer);
+double getPptc(double T,double Tnex,double Pcool,double Pexo,int layer);
+double getPexo(double T,double I,double SOC,int layer);
+double getPcool(double T,double Tnex);
 //tree.cpp,里面用到了config.cpp
 void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,double I);
 void depthFirstSearch(BTree root,double I);
