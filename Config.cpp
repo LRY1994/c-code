@@ -51,17 +51,10 @@ double getQt(double I,double T){
     return Qtt;
 }
 
-//DeltaSOC 
-double getDsoc(double I,double Pptc,double T,int layer){
-    double Qt = getQt(I,T);
-    return (I+Pptc/Uptc)*(dt[layer-1]/3600)/Qt;
-}
+
 
 //R0
-// double SOC = SOC0;
 double getR(double T,double I,double SOC,int layer){
-    // SOC = SOC - getDsoc(I,Pptc,T,layer);
-    // printf("SOC:%lf\n\n",SOC);
     rtObj->initialize();
     rtObj->rtU.T = T;
     rtObj->rtU.SOC = SOC;
@@ -99,7 +92,15 @@ double getPptc(double T,double Tnex,double Pcool,double Pexo,int layer) {
     return getPptc;     
 }
 
-
+//DeltaSOC 
+double getSoc(double parentT, double childT, double parentSOC,double I,int parentLayer){
+    double Pcool = getPcool(parentT,childT);
+    double Pexo = getPexo(parentT,I,parentSOC,parentLayer);
+    double Pptc = getPptc(parentT,childT,Pcool,Pexo,parentLayer); 
+    double Qt = getQt(I,childT);
+    double dsoc = (I+Pptc/Uptc)*(dt[parentLayer-1]/3600)/Qt;
+    return parentSOC - dsoc;
+}
 double get_highest_temp(double T,int layer,double I,double SOC)
 {  
     double Pptc = Pmax;

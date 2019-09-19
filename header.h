@@ -34,7 +34,7 @@ double get_lowest_temp(double T,int layer,double I,double SOC);
 double get_firstLayer_temp(int i,int N,double parentT,double I,double SOC);
 double getTime(double lastTime,int layer);
 void getDt(int segment,double I);
-double getDsoc(double I,double Pptc,double T,int layer);
+double getSoc(double parentT, double childT, double parentSOC,double I,int parentLayer);
 double getPptc(double T,double Tnex,double Pcool,double Pexo,int layer);
 double getPexo(double T,double I,double SOC,int layer);
 double getPcool(double T,double Tnex);
