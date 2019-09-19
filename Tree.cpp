@@ -11,9 +11,10 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,dou
     //root
     root = new BTNode();
     root->temperature = initial;
-    root->sum = 0;
-    root->layer = 1;cout<< root->layer; 
-    root->socc = 1.0; cout<< root->socc; 
+    root->sum = 0; 
+    root->layer = 1;  
+    root->SOC = 1;
+    
     root->path.push_back(root->temperature);
     count_num++; 
      
@@ -22,12 +23,15 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,dou
     BTNode * tmp;int i=0;
      
     while(i<firstLayerNum){
-        
+      
         i++;
         tmp = new BTNode();
         
-        tmp->temperature = get_firstLayer_temp(i,firstLayerNum,initial,I,root->socc);        
-        tmp->socc = root->socc - getDsoc(I,0,tmp->temperature,root->layer);
+        tmp->temperature = get_firstLayer_temp(i,firstLayerNum,initial,I,root->SOC);
+        double Pcool = getPcool(initial,tmp->temperature);
+        double Pexo = getPexo(initial,I,root->SOC,root->layer);
+        double Pptc = getPptc(initial,tmp->temperature,Pcool,Pexo,root->layer);      
+        tmp->SOC = root->SOC - getDsoc(I,Pptc,tmp->temperature,root->layer);
         tmp->sum = 0;
         tmp->layer = root->layer + 1 ;
         tmp->path.push_back(root->temperature);
@@ -36,6 +40,8 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,dou
 
         count_num++;  
         list.push_back(tmp);
+       
+       
     }
 
     vector<BTNode *> tmplist;
@@ -46,13 +52,16 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,dou
         for (int i = 0; i < list.size(); i++)
         {         
             BTNode *node = list[i];
-            double high = get_highest_temp(node->temperature,node->layer,I,node->socc) ;
-            double low = get_lowest_temp(node->temperature,node->layer,I,node->socc) ;
+            double high = get_highest_temp(node->temperature,node->layer,I,node->SOC) ;
+            double low = get_lowest_temp(node->temperature,node->layer,I,node->SOC) ;
             double dist = high - low;
             //left node
             tmp = new BTNode();
             tmp->temperature = low + dist * 0.25;
-            tmp->socc = root->socc - getDsoc(I,0,tmp->temperature,node->layer);
+            double Pcool = getPcool(node->temperature,tmp->temperature);
+            double Pexo = getPexo(node->temperature,I,root->SOC,root->layer);
+            double Pptc = getPptc(node->temperature,tmp->temperature,Pcool,Pexo,root->layer);
+            tmp->SOC = root->SOC - getDsoc(I,Pptc,tmp->temperature,node->layer);
             tmp->sum=0;
             tmp->layer = node->layer + 1;
             count_num++;
@@ -61,7 +70,7 @@ void creatBTree(BTNode *&root, double initial,int firstLayerNum,int node_num,dou
             //right node
             tmp = new BTNode();
             tmp->temperature = high - dist * 0.25;
-            tmp->socc = root->socc - getDsoc(I,0,tmp->temperature,node->layer);
+            tmp->SOC = root->SOC - getDsoc(I,0,tmp->temperature,node->layer);
             tmp->sum=0;
             tmp->layer = node->layer + 1;
             count_num++;
@@ -93,7 +102,7 @@ void depthFirstSearch(BTree root,double I)
 
             double parentT = node->temperature;
             double childT = child->temperature;
-            double power = cal_power(parentT, childT, node->layer , I,node->socc);
+            double power = cal_power(parentT, childT, node->layer , I,node->SOC);
             child->sum = node->sum + power;
            
             // printf("parentT:%lf;childT:%lf;layer:%ld;power:%lf\n",parentT,childT,node->layer, power);

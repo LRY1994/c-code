@@ -63,5 +63,6 @@ double getX(int index){
 double getY(int index){
  return pointY[index];
 }
-
-// g++ -fexec-charset=GBK test.cpp main.cpp tree.cpp config.cpp spline.cpp && a.exe
+// -fexec-charset=GBK
+// matlab complier
+// mex Algorithm.c main.cpp Tree.cpp Config.cpp spline.cpp Lookuptable.cpp Lookuptable_data.cpp
