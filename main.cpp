@@ -10,6 +10,7 @@ vector<double> mArray;
 vector<Point> point;
 vector<double> pointX;
 vector<double> pointY;
+ofstream write;  
 /**
  * @description 执行函数
  * @param {int} segment ，时间间隔数
@@ -19,6 +20,7 @@ vector<double> pointY;
  */
 vector<double> getMArray(int segment,double initialVal,int firstLayerNum)
 {
+    write.open("log.txt");
     double I = getI();
     getDt(segment,I);
     int node_num = firstLayerNum * (pow(2, segment) - 1) + 1;

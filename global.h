@@ -1,4 +1,5 @@
 #include <vector>
+#include <fstream>
 using namespace std;
 
 #ifdef GLOBAL_C
@@ -8,6 +9,7 @@ using namespace std;
     vector<Point> point;
     vector<double> pointX;
     vector<double> pointY; 
+    ofstream write;  
     
 #else  
     extern  double min_sum ;
@@ -15,6 +17,7 @@ using namespace std;
     extern vector<double> mArray;
     extern vector<Point> point; 
     extern vector<double> pointX;
-    extern vector<double> pointY;  
+    extern vector<double> pointY; 
+    extern ofstream write;   
   
 #endif  
